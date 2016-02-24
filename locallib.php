@@ -33,10 +33,10 @@
  */
 class assign_feedback_signature extends assign_feedback_plugin {
 
-   /**
-    * Get the name of the signature feedback plugin
-    * @return string
-    */
+    /**
+     * Get the name of the signature feedback plugin
+     * @return string
+     */
     public function get_name() {
         return get_string('pluginname', 'assignfeedback_signature');
     }
@@ -63,10 +63,10 @@ class assign_feedback_signature extends assign_feedback_plugin {
     public function get_form_elements($grade, MoodleQuickForm $mform, stdClass $data) {
         global $DB, $PAGE;
 
-		$PAGE->requires->js(new moodle_url('feedback/signature/lib/jquery-1.8.0.min.js'));
-		$PAGE->requires->js(new moodle_url('feedback/signature/lib/jquery.signaturepad.min.js'));
-		$PAGE->requires->js(new moodle_url('feedback/signature/lib/json2.min.js'));
-		$PAGE->requires->js(new moodle_url('feedback/signature/lib/signature.js'));
+        $PAGE->requires->js(new moodle_url('feedback/signature/lib/jquery-1.8.0.min.js'));
+        $PAGE->requires->js(new moodle_url('feedback/signature/lib/jquery.signaturepad.min.js'));
+        $PAGE->requires->js(new moodle_url('feedback/signature/lib/json2.min.js'));
+        $PAGE->requires->js(new moodle_url('feedback/signature/lib/signature.js'));
         $signature = '';
         $html = '';
 
@@ -81,11 +81,11 @@ class assign_feedback_signature extends assign_feedback_plugin {
                 'class' => 'clearButton'
             ));
         }
-        
+
         $html .= html_writer::start_tag('div', array('class' => 'sigWrapper'));
         $html .= html_writer::tag('canvas', $signature, array('width' => '500px', 'class' => 'pad'));
         $html .= html_writer::end_tag('div');
-        
+
         $mform->addElement('html', $html);
         $mform->addElement('hidden', 'output', '', array('class' => 'output'));
         $mform->addRule('output', get_string('error'), 'required', '', 'client', false, false);
@@ -108,8 +108,8 @@ class assign_feedback_signature extends assign_feedback_plugin {
             return $DB->update_record('assignfeedback_signature', $existingsignature);
         } else {
             $signaturecomment = new stdClass();
-		    $signaturecomment->signature = $data->output;
-		    $signaturecomment->grade = $grade->id;
+            $signaturecomment->signature = $data->output;
+            $signaturecomment->grade = $grade->id;
             $signaturecomment->assignment = $this->assignment->get_instance()->id;
             return $DB->insert_record('assignfeedback_signature', $signaturecomment) > 0;
         }
@@ -126,18 +126,18 @@ class assign_feedback_signature extends assign_feedback_plugin {
         global $PAGE, $DB;
         $signature = $DB->get_field('assignfeedback_signature', 'signature', array('grade' => $grade->id));
         $PAGE->requires->js(new moodle_url('feedback/signature/lib/jquery-1.8.0.min.js'));
-	    $PAGE->requires->js(new moodle_url('feedback/signature/lib/jquery.signaturepad.min.js'));
-	    $PAGE->requires->js(new moodle_url('feedback/signature/lib/json2.min.js'));
+        $PAGE->requires->js(new moodle_url('feedback/signature/lib/jquery.signaturepad.min.js'));
+        $PAGE->requires->js(new moodle_url('feedback/signature/lib/json2.min.js'));
         $PAGE->requires->js(new moodle_url('feedback/signature/lib/signature_regenerate.js'));
-    	
-    	$html  = html_writer::start_tag('div', array('class' => 'sigPad signed'));
+
+        $html  = html_writer::start_tag('div', array('class' => 'sigPad signed'));
         $html .= html_writer::tag('canvas', $signature, array(
             'class' => 'pad',
             'width' => 183,
             'height' => 55
         ));
         $html .= html_writer::end_tag('div');
-    	
+
         return $html;
     }
 
